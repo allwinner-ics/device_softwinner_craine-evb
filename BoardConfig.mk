@@ -4,3 +4,5 @@
 #
 
 include device/softwinner/crane-common/BoardConfigCommon.mk
+
+SW_TARGET_NO_TSCalibration := true

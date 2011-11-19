@@ -10,6 +10,9 @@ PRODUCT_COPY_FILES += \
 	
 PRODUCT_COPY_FILES += \
 	device/softwinner/crane-aino/initlogo.rle:root/initlogo.rle
+	
+PRODUCT_PACKAGES += \
+	TSCalibration2
 
 # Overrides
 PRODUCT_BRAND  := softwinners
