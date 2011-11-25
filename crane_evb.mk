@@ -2,6 +2,8 @@
 
 $(call inherit-product, device/softwinner/crane-common/ProductCommon.mk)
 
+DEVICE_PACKAGE_OVERLAYS := device/softwinner/crane-evb/overlay
+
 PRODUCT_COPY_FILES += \
 	device/softwinner/crane-evb/ueventd.sun4i.rc:root/ueventd.sun4i.rc \
 	device/softwinner/crane-evb/init.sun4i.rc:root/init.sun4i.rc 
@@ -27,6 +29,7 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
 	device/softwinner/crane-evb/vold.fstab:system/etc/vold.fstab
 
+PRODUCT_CHARACTERISTICS := tablet
 
 # Overrides
 PRODUCT_BRAND  := softwinners
