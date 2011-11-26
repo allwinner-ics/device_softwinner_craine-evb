@@ -5,8 +5,6 @@
 
 include device/softwinner/crane-common/BoardConfigCommon.mk
 
-SW_TARGET_NO_TSCalibration := true
-
 # Wifi related defines
 BOARD_WPA_SUPPLICANT_DRIVER := WEXT
 WPA_SUPPLICANT_VERSION      := VER_0_8_X
