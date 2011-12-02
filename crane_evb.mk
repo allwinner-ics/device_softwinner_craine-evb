@@ -6,7 +6,9 @@ DEVICE_PACKAGE_OVERLAYS := device/softwinner/crane-evb/overlay
 
 PRODUCT_COPY_FILES += \
 	device/softwinner/crane-evb/ueventd.sun4i.rc:root/ueventd.sun4i.rc \
-	device/softwinner/crane-evb/init.sun4i.rc:root/init.sun4i.rc 
+	device/softwinner/crane-evb/init.sun4i.rc:root/init.sun4i.rc \
+	device/softwinner/crane-evb/media_profiles.xml:system/etc/media_profiles.xml \
+	device/softwinner/crane-evb/camera.cfg:system/etc/camera.cfg \
 
 PRODUCT_COPY_FILES += \
 	device/softwinner/crane-aino/initlogo.rle:root/initlogo.rle

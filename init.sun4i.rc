@@ -37,6 +37,11 @@ on boot
 	insmod /drv/mali.ko
 
 
+#csi module
+	insmod /drv/videobuf-core.ko
+	insmod /drv/videobuf-dma-contig.ko
+	insmod /drv/gc0308.ko
+	insmod /drv/sun4i_csi0.ko
 
 		
 
