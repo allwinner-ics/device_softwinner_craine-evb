@@ -10,40 +10,82 @@ on early-init
 	mkdir /mnt/usbhost1 0000 system system
 
 on fs
-    mount ext4 /dev/block/nandc /system wait noatime nodev barrier=0
+    mount ext4 /dev/block/nandd /system wait noatime nodev barrier=0
 
 # try to mount /data
-	wait /dev/block/nandd
-	mount ext4 /dev/block/nandd /data wait noatime nosuid nodev barrier=0
-	setupfs /dev/block/nandd	
+	wait /dev/block/nande
+	mount ext4 /dev/block/nande /data wait noatime nosuid nodev barrier=0
+	setupfs /dev/block/nande	
 	umount /data
-	exec /system/bin/logwrapper /system/bin/e2fsck -y /dev/block/nandd    
-	exec /system/bin/busybox mount -t ext4 -o noatime,nosuid,nodev,noauto_da_alloc,barrier=0 /dev/block/nandd /data 
+	exec /system/bin/logwrapper /system/bin/e2fsck -y /dev/block/nande    
+	exec /system/bin/busybox mount -t ext4 -o noatime,nosuid,nodev,barrier=0,noauto_da_alloc,commit=15,nodelalloc /dev/block/nande /data 
 
 # try to mount /cache
-    mount ext4 /dev/block/nandg /cache wait noatime nosuid nodev barrier=0
-	setupfs /dev/block/nandg
-    mount ext4 /dev/block/nandg /cache wait noatime nosuid nodev barrier=0
-    format_userdata crane-evb
+    mount ext4 /dev/block/nandh /cache wait noatime nosuid nodev barrier=0
+	setupfs /dev/block/nandh
+	umount /cache
+    exec /system/bin/logwrapper /system/bin/e2fsck -y /dev/block/nandh 
+    exec /system/bin/busybox mount -t ext4 -o noatime,nosuid,nodev,barrier=0,noauto_da_alloc,commit=15,nodelalloc /dev/block/nandh /cache 
+        
+    format_userdata /dev/block/nandi crane-evb
 
 on boot
-	chown system system /drv
-	chmod 0777 /drv	
 
 #insmod key & tp driver
-	insmod /drv/sun4i-ts.ko
-	insmod /drv/sun4i-keyboard.ko
+	insmod /system/vendor/modules/sun4i-ts.ko
+#	insmod /system/vendor/modules/sun4i-keyboard.ko
 
 # insmod mali driver 
-	insmod /drv/ump.ko
-	insmod /drv/mali.ko
+	insmod /system/vendor/modules/ump.ko
+	insmod /system/vendor/modules/mali.ko
 
 
 #csi module
-	insmod /drv/videobuf-core.ko
-	insmod /drv/videobuf-dma-contig.ko
-	insmod /drv/gc0308.ko
-	insmod /drv/sun4i_csi0.ko
+	insmod /system/vendor/modules/videobuf-core.ko
+	insmod /system/vendor/modules/videobuf-dma-contig.ko
+	insmod /system/vendor/modules/gc0308.ko
+	insmod /system/vendor/modules/sun4i_csi0.ko
 
-		
+# -------- bluetooth related services ----------
+#chmod 0660 /dev/ttyS1
+#chmod 0770 /system/bin/hciattach
 
+#change rfkill permissions for bluetooth power management
+#   chown system system /sys/class/rfkill/rfkill0/state
+#   chmod 0660 /sys/class/rfkill/rfkill0/state
+#   write /sys/class/rfkill/rfkill0/state 0
+#   setprop rw.bluetooth.status "0"
+
+# --- used for usi bm01a 3in1 module's bluetooth attach
+#service hciattach /system/bin/hciattach -n -s 115200 /dev/ttyS1 bcm4329 1500000
+#    user root
+#    group bluetooth net_bt_admin
+#    disabled
+#    oneshot
+
+# --- used for huawei mw269v2 3in1 module's bluetooth attach
+#service hciattach /system/bin/brcm_patchram_plus --enable_hci \
+#    --baudrate 1500000 \
+#    --patchram /drv/bcm4330.hcd \
+#    --enable_lpm /dev/ttyS1
+#    user bluetooth
+#    group bluetooth net_bt_admin
+#    disabled
+
+# --- used for samsung swb-a31 2in1 module's bluetooth attach
+#service bccmd /system/bin/bccmd -t bcsp -b 115200 -d /dev/ttyS1 psload -r /drv/ath6k/AR6003/A31_Script.psr
+#    user root
+#    group bluetooth net_bt_admin
+#    disabled
+#    oneshot
+#
+#service hciattach /system/bin/hciattach -s 1500000 /dev/ttyS1 bcsp 1500000 flow
+#   user root
+#   group bluetooth net_bt_admin
+#   disabled
+#   oneshot
+
+#service abtfilt /system/bin/abtfilt -d -z -n -v -b -s
+#    disabled
+#    oneshot
+# -------- bluetooth related services end ----------
