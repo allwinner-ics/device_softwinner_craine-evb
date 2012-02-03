@@ -21,7 +21,7 @@ PRODUCT_COPY_FILES += \
 	device/softwinner/crane-evb/sun4i-ts.idc:system/usr/idc/sun4i-ts.idc
 
 PRODUCT_COPY_FILES += \
-	device/softwinner/crane-aino/initlogo.rle:root/initlogo.rle
+	device/softwinner/crane-evb/initlogo.rle:root/initlogo.rle
 
 PRODUCT_COPY_FILES += \
 	device/softwinner/crane-evb/vold.fstab:system/etc/vold.fstab
@@ -32,7 +32,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PROPERTY_OVERRIDES += \
 	persist.sys.usb.config=mass_storage,adb \
 	ro.sf.lcd_density=120 \
-	ro.product.firmware=0.3
+	ro.product.firmware=0.5
 
 $(call inherit-product-if-exists, device/softwinner/crane-evb/modules/modules.mk)
 

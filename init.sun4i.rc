@@ -46,9 +46,16 @@ on boot
 	insmod /system/vendor/modules/gc0308.ko
 	insmod /system/vendor/modules/sun4i_csi0.ko
 
+#network module
+	insmod /system/vendor/modules/usbnet.ko
+	insmod /system/vendor/modules/asix.ko
+	insmod /system/vendor/modules/qf9700.ko
+	insmod /system/vendor/modules/mcs7830.ko
+	insmod /system/vendor/modules/rtl8150.ko
+
 # -------- bluetooth related services ----------
-#chmod 0660 /dev/ttyS1
-#chmod 0770 /system/bin/hciattach
+#chmod 0666 /dev/ttyS1
+#chmod 0777 /system/bin/hciattach
 
 #change rfkill permissions for bluetooth power management
 #   chown system system /sys/class/rfkill/rfkill0/state
@@ -66,14 +73,14 @@ on boot
 # --- used for huawei mw269v2 3in1 module's bluetooth attach
 #service hciattach /system/bin/brcm_patchram_plus --enable_hci \
 #    --baudrate 1500000 \
-#    --patchram /drv/bcm4330.hcd \
+#    --patchram /system/vendor/modules/bcm4330.hcd \
 #    --enable_lpm /dev/ttyS1
-#    user bluetooth
+#    user root
 #    group bluetooth net_bt_admin
 #    disabled
 
 # --- used for samsung swb-a31 2in1 module's bluetooth attach
-#service bccmd /system/bin/bccmd -t bcsp -b 115200 -d /dev/ttyS1 psload -r /drv/ath6k/AR6003/A31_Script.psr
+#service bccmd /system/bin/bccmd -t bcsp -b 115200 -d /dev/ttyS1 psload -r /system/vendor/modules/ath6k/AR6003/A31_Script.psr
 #    user root
 #    group bluetooth net_bt_admin
 #    disabled
